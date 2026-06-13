@@ -1,0 +1,28 @@
+// Deployed on Vercel + Neon (PostgreSQL).
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  category    String // "web" | "design" | "app" | "data" | "other"
+  description String   @db.Text
+  coverImage  String   @db.Text
+  liveUrl     String?  @db.Text
+  repoUrl     String?  @db.Text
+  tech        String?  @db.Text // comma-separated
+  year        String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
