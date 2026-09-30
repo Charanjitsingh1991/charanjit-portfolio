@@ -1,8 +1,1 @@
-import { NextResponse } from "next/server";
-import { SESSION_COOKIE } from "@/lib/session";
-
-export async function POST() {
-  const res = NextResponse.json({ ok: true });
-  res.cookies.set(SESSION_COOKIE, "", { path: "/", maxAge: 0 });
-  return res;
-}
+import {NextResponse} from 'next/server';import {SESSION_COOKIE} from '@/lib/session';import {state} from '@/lib/platform-state';import {sameOrigin,adminSession} from '@/lib/http';export async function POST(req:Request){if(!sameOrigin(req))return NextResponse.json({error:'Invalid origin'},{status:403});const session=await adminSession();if(session)await state(s=>{s.security.sessions=s.security.sessions.filter(x=>x.id!==session.sid);},true);const res=NextResponse.json({ok:true});res.cookies.set(SESSION_COOKIE,'',{path:'/',maxAge:0});return res;}

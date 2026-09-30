@@ -1,0 +1,8 @@
+import defaults from './site-defaults.json';
+import {z} from 'zod';
+const text=z.string().trim().max(12000);
+export const assetUrl=z.string().trim().max(2048).refine(v=>!v||(/^\/(?:work|api\/media|uploads)\/[a-zA-Z0-9/_.-]+$/.test(v)&&!v.includes('..'))||(()=>{try{const u=new URL(v);return u.protocol==='https:'&&!u.username&&!u.password;}catch{return false;}})(),'Use an uploaded file or valid HTTPS URL.');
+const tuple=z.array(text).min(2).max(5);
+export const siteSchema=z.object({name:text.min(2),wordmark:text,tagline:text,bio:text,aboutTitle:text,about:text,email:z.string().email(),phone:text,location:text,linkedin:assetUrl,github:assetUrl,instagram:assetUrl,cvUrl:assetUrl,contactTitle:text,footer:text,seoTitle:z.string().max(160),seoDescription:z.string().max(500),socialImage:assetUrl,analyticsEnabled:z.boolean(),confirmationEmailEnabled:z.boolean(),stats:z.array(tuple).max(8),metrics:z.array(tuple).max(10),tracks:z.array(z.object({c:z.string().regex(/^#[a-fA-F0-9]{6}$/),t:text,icon:text,d:text,li:z.array(text).max(12)})).max(12),marquee:z.array(text).max(40),services:z.array(tuple).max(20),skills:z.array(z.tuple([text,z.array(text).max(30)])).max(12),experience:z.array(tuple).max(30),freelance:z.array(tuple).max(30),education:z.array(tuple).max(20),certifications:z.array(tuple).max(40),areas:z.array(z.object({id:z.enum(['web','design','data','it']),title:text,description:text,skills:text})).length(4),testimonials:z.array(z.object({name:text.min(1),role:text,quote:text.min(10),approved:z.boolean()})).max(30)});
+export type SiteContent=z.infer<typeof siteSchema>;
+export const defaultContent=siteSchema.parse(defaults);

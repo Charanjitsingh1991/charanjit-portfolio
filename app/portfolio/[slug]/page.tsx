@@ -1,0 +1,1 @@
+import {permanentRedirect} from 'next/navigation';import {aliases} from '@/lib/catalog';export default async function LegacyProject({params}:{params:Promise<{slug:string}>}){const {slug}=await params;permanentRedirect('/work/'+(aliases[slug]||slug));}

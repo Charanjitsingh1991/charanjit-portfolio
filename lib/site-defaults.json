@@ -1,0 +1,440 @@
+{
+  "name": "Charanjit Singh",
+  "wordmark": "CHARANJIT.SINGH",
+  "tagline": "Abu Dhabi, UAE · Open to projects",
+  "bio": "A multi-disciplinary technologist who builds the whole stack most teams split across four hires — production code & AI products, brand & design, IBM-certified data science, and the digital marketing and enterprise IT that tie it all together.",
+  "aboutTitle": "One technologist, connected disciplines.",
+  "about": "I own problems end to end — from a line of code to a brand to the infrastructure it runs on. Four core perspectives — development, design, data science, and IT — connected by practical experience in digital marketing and AI automation. Ten-plus years of bringing the whole picture together.",
+  "email": "charanjit@thecharanjitsingh.com",
+  "phone": "+971 55 771 4245",
+  "location": "Abu Dhabi, United Arab Emirates",
+  "linkedin": "https://www.linkedin.com/in/charanjitsingh1991/",
+  "github": "https://github.com/Charanjitsingh1991",
+  "instagram": "https://www.instagram.com/cs_bharaj/",
+  "cvUrl": "",
+  "contactTitle": "Let’s build something remarkable.",
+  "footer": "Built with code, design & a little AI.",
+  "seoTitle": "Charanjit Singh | Full-Stack Developer & IT Expert UAE",
+  "seoDescription": "Abu Dhabi-based full-stack developer, designer, data scientist and IT security professional building web, mobile, AI and enterprise systems.",
+  "socialImage": "",
+  "analyticsEnabled": true,
+  "confirmationEmailEnabled": false,
+  "stats": [
+    [
+      "10+",
+      "Years experience"
+    ],
+    [
+      "143",
+      "Completed projects"
+    ],
+    [
+      "114",
+      "Happy clients"
+    ],
+    [
+      "12+",
+      "Certifications"
+    ]
+  ],
+  "metrics": [
+    [
+      "40%",
+      "Traffic growth via SEO"
+    ],
+    [
+      "32%",
+      "E-commerce conversion uplift"
+    ],
+    [
+      "60%",
+      "Brand awareness growth"
+    ],
+    [
+      "80h",
+      "Saved / month via automation"
+    ],
+    [
+      "3",
+      "Enterprise sites supported"
+    ]
+  ],
+  "tracks": [
+    {
+      "c": "#2DD4BF",
+      "t": "Full Stack Development",
+      "icon": "⌘",
+      "d": "Websites, Android apps, custom CMS and AI-assisted workflows that ship production systems faster.",
+      "li": [
+        "Built Agri Cropwise solo, end-to-end",
+        "React, Next.js, Node, Laravel, Django, WordPress",
+        "AI products & build-pipeline automation",
+        "E-commerce & custom application development"
+      ]
+    },
+    {
+      "c": "#E9B872",
+      "t": "Design & Brand",
+      "icon": "✦",
+      "d": "Complete corporate identity — packaging, catalogues, exhibitions, motion and design systems.",
+      "li": [
+        "Group-wide brand system & style guide",
+        "Print, packaging, motion graphics & social",
+        "Adobe Illustrator, Photoshop, After Effects",
+        "Identity systems across digital and physical media"
+      ]
+    },
+    {
+      "c": "#F472B6",
+      "t": "Data Science · IBM Certified",
+      "icon": "◈",
+      "d": "I turn the numbers products generate into decisions — analysis, modelling, insight.",
+      "li": [
+        "IBM Data Science Professional Specialization",
+        "Python, R, SQL, exploratory analysis",
+        "Machine learning with Python",
+        "Data-driven marketing & product decisions"
+      ]
+    },
+    {
+      "c": "#8B9DF5",
+      "t": "IT Infrastructure & Security",
+      "icon": "⛨",
+      "d": "Enterprise IT across three sites — M365, networking, incident response, servers, CCTV.",
+      "li": [
+        "Microsoft 365 · Exchange · Entra ID",
+        "Incident response & business email security",
+        "FortiGate firewall, SSL-VPN, Nessus audits",
+        "Multi-site networking & CCTV infrastructure"
+      ]
+    },
+    {
+      "c": "#5BC0EB",
+      "t": "Digital Marketing",
+      "icon": "↗",
+      "d": "SEO, paid and analytics that convert good work into measurable growth.",
+      "li": [
+        "Technical SEO & organic search strategy",
+        "Google / Meta / LinkedIn / X ads",
+        "HubSpot CRM & email marketing",
+        "Google Analytics & Search Console"
+      ]
+    },
+    {
+      "c": "#2DD4BF",
+      "t": "AI & Automation",
+      "icon": "✧",
+      "d": "Developer tooling and AI workflows that remove repetitive work.",
+      "li": [
+        "RAG chat assistants with source citations",
+        "Workflow & build-pipeline automation",
+        "Custom developer plugins",
+        "Productivity tools built around real processes"
+      ]
+    }
+  ],
+  "marquee": [
+    "React",
+    "Next.js",
+    "Node.js",
+    "Laravel",
+    "Android",
+    "Firebase",
+    "WordPress",
+    "AI & Automation",
+    "Adobe Suite",
+    "SEO",
+    "Microsoft 365",
+    "FortiGate",
+    "Python",
+    "R",
+    "Data Science",
+    "Vercel",
+    "GCP"
+  ],
+  "services": [
+    [
+      "S/01",
+      "Website Design & Development",
+      "Fast, responsive, SEO-ready sites — WordPress, custom CMS, React/Next.js and e-commerce.",
+      "Development"
+    ],
+    [
+      "S/02",
+      "Mobile Apps & AI Products",
+      "Android apps with Firebase backends, RAG-grounded AI assistants and admin consoles — concept to delivery.",
+      "Development"
+    ],
+    [
+      "S/03",
+      "UI/UX & Graphic Design",
+      "Brand identities, packaging, catalogues, exhibition graphics, motion and full design systems.",
+      "Design"
+    ],
+    [
+      "S/04",
+      "Data Science & Analytics",
+      "IBM-certified analysis, modelling and dashboards that turn raw data into decisions.",
+      "Data science"
+    ],
+    [
+      "S/05",
+      "SEO & Digital Marketing",
+      "Technical SEO, keyword strategy, Google/Meta/LinkedIn ads, HubSpot CRM and email.",
+      "Data science"
+    ],
+    [
+      "S/06",
+      "IT Infrastructure & Security",
+      "Microsoft 365, firewall & VPN, vulnerability assessment, incident response and hardening.",
+      "IT & security"
+    ]
+  ],
+  "skills": [
+    [
+      "Web & Frontend",
+      [
+        "HTML/CSS",
+        "JavaScript",
+        "TypeScript",
+        "React",
+        "Next.js",
+        "Vue.js",
+        "AngularJS",
+        "Tailwind",
+        "Framer Motion",
+        "Bootstrap"
+      ]
+    ],
+    [
+      "Backend & Database",
+      [
+        "Node.js",
+        "PHP",
+        "Laravel",
+        "Django",
+        "MySQL",
+        "PostgreSQL",
+        "Prisma",
+        "REST APIs",
+        "Firebase"
+      ]
+    ],
+    [
+      "Mobile & CMS",
+      [
+        "Android",
+        "Push Notifications",
+        "WordPress",
+        "Custom CMS",
+        "Sanity v3",
+        "Headless CMS",
+        "OpenCart"
+      ]
+    ],
+    [
+      "AI & Automation",
+      [
+        "AI-Assisted Dev",
+        "Prompt Engineering",
+        "RAG Chat",
+        "Workflow Automation",
+        "Build Pipelines",
+        "Dev Tooling"
+      ]
+    ],
+    [
+      "Design & Marketing",
+      [
+        "Photoshop",
+        "Illustrator",
+        "UI/UX",
+        "Design Systems",
+        "Print & Packaging",
+        "Motion",
+        "SEO",
+        "Google Ads",
+        "HubSpot"
+      ]
+    ],
+    [
+      "Data, IT & Cloud",
+      [
+        "Python",
+        "R",
+        "Data Science",
+        "Microsoft 365",
+        "Entra ID",
+        "FortiGate",
+        "Nessus",
+        "PowerShell",
+        "Vercel",
+        "AWS",
+        "GCP"
+      ]
+    ]
+  ],
+  "experience": [
+    [
+      "May 2024 — Present",
+      "Developer · Designer · Marketer · IT Admin",
+      "RNZ Agrotech Industries Ltd — Abu Dhabi, UAE",
+      "Built Agri Cropwise solo, run the group’s websites and SEO, own the branding function, and administer enterprise IT across three sites.",
+      "WordPress,Android + AI,Adobe Suite,SEO,Microsoft 365,FortiGate"
+    ],
+    [
+      "Sep 2023 — May 2024",
+      "E-commerce & Digital Marketing Specialist",
+      "Ajooba Stationery & Gift LLC — Dubai, UAE",
+      "Managed seven websites end-to-end — WordPress builds to SEO — and integrated payment gateways.",
+      "WooCommerce,OpenCart,API,SEO"
+    ],
+    [
+      "Aug 2020 — Aug 2023",
+      "Digital Marketing Specialist",
+      "Tutsin Agency — Jalandhar, India",
+      "Email campaigns, SEO-led organic growth, and data analysis that sharpened strategy.",
+      "Google Ads,Email,SEO,Python"
+    ],
+    [
+      "Aug 2018 — Aug 2020",
+      "Senior Web Developer",
+      "Tutsin Agency — Jalandhar, India",
+      "Led UI/UX across client projects, built a custom e-commerce platform with filtering and reviews, and trained junior developers.",
+      "PHP,JavaScript,CMS,Mentoring"
+    ],
+    [
+      "Sep 2012 — Dec 2013",
+      "Lead PHP Full Stack Developer",
+      "NIIT Technologies — Jalandhar, India",
+      "Built B2B finance authentication workflows, a 2,500-product catalogue, and RESTful APIs for enterprise systems.",
+      "PHP,REST APIs,MySQL"
+    ]
+  ],
+  "freelance": [
+    [
+      "Sep 2022 — Dec 2022",
+      "Senior Web Developer — Kalia Law Firm",
+      "WordPress, Google Cloud, and Maps API for a Canadian law firm."
+    ],
+    [
+      "Jun 2021 — Mar 2022",
+      "Full Stack Developer — ForexAMG",
+      "Laravel module integration, SOAP/WSDL services, and automation simulators/validators."
+    ],
+    [
+      "Aug 2020 — Apr 2021",
+      "Lead Full Stack Developer — iapply.io",
+      "Unified-login platform querying multiple data types from one search, built as a responsive SPA."
+    ],
+    [
+      "Jan 2020 — Jul 2020",
+      "Lead Web-App Developer — Nav",
+      "Django and Vue image-recognition application, data ingestion APIs, and workflow automation."
+    ],
+    [
+      "May 2019 — Dec 2019",
+      "Senior Full Stack Developer — Sanskriti Bazaar",
+      "Angular components, page-speed improvements, and broader test coverage."
+    ]
+  ],
+  "education": [
+    [
+      "2017 — 2020",
+      "Master of Computer Applications (MCA)",
+      "Apeejay Institute of Management & Engineering — 72%."
+    ],
+    [
+      "2013 — 2016",
+      "Bachelor of Computer Applications (BCA)",
+      "Apeejay College of Fine Arts, India."
+    ],
+    [
+      "2013",
+      "Diploma — ZEND Server Technology",
+      "NIIT Limited, India."
+    ],
+    [
+      "2011 — 2012",
+      "Diploma — Developing Interactive Websites",
+      "NIIT Limited, India."
+    ]
+  ],
+  "certifications": [
+    [
+      "AWS Fundamentals — Going Cloud-Native",
+      "Coursera"
+    ],
+    [
+      "IBM Data Science Specialization",
+      "Coursera"
+    ],
+    [
+      "Applied Data Science Specialization",
+      "Coursera"
+    ],
+    [
+      "Data Science Foundations using R",
+      "Coursera"
+    ],
+    [
+      "Machine Learning with Python",
+      "Coursera"
+    ],
+    [
+      "Data Analysis with Python",
+      "Coursera"
+    ],
+    [
+      "Databases & SQL for Data Science",
+      "Coursera"
+    ],
+    [
+      "Exploratory Data Analysis",
+      "Coursera"
+    ],
+    [
+      "R Programming",
+      "Coursera"
+    ],
+    [
+      "Tools for Data Science",
+      "Coursera"
+    ],
+    [
+      "Fundamentals of Digital Marketing",
+      "Google"
+    ],
+    [
+      "Inbound Marketing Certification",
+      "HubSpot"
+    ]
+  ],
+  "areas": [
+    {
+      "id": "web",
+      "title": "Development",
+      "description": "Production code, useful applications, and AI products.",
+      "skills": "React, Next.js, Laravel, Android, Firebase"
+    },
+    {
+      "id": "design",
+      "title": "Design",
+      "description": "A consistent identity across digital and physical experiences.",
+      "skills": "Brand identity, UI/UX, Packaging, Motion"
+    },
+    {
+      "id": "data",
+      "title": "Data science",
+      "description": "Analysis and modelling that turn information into decisions.",
+      "skills": "Python, R, SQL, Analytics, Machine learning"
+    },
+    {
+      "id": "it",
+      "title": "IT & security",
+      "description": "Reliable infrastructure, connected teams, and secure systems.",
+      "skills": "Microsoft 365, FortiGate, Networking, Cloud"
+    }
+  ],
+  "testimonials": []
+}

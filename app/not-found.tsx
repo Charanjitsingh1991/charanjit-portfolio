@@ -1,0 +1,1 @@
+import Link from 'next/link';export default function NotFound(){return <main className="error-page" id="main"><span className="eyebrow">404 / A SMALL DETOUR</span><h1>This idea hasn’t<br/>landed here.</h1><p>The page may have moved. Let’s get you back to the work.</p><Link className="button button-dark" href="/portfolio">Explore the portfolio ↗</Link></main>;}

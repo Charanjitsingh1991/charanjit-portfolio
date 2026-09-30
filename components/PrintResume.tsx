@@ -1,0 +1,1 @@
+"use client";export default function PrintResume(){return <button className="btn solid" onClick={()=>window.print()}>Print / save as PDF ↓</button>;}

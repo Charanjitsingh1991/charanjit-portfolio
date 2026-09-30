@@ -1,112 +1,14 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import HeroThree from "./HeroThree";
-
-const ROLES: Record<string, { label: string; phrases: string[] }> = {
-  dev: { label: "⌘ Developer", phrases: ["I build products.", "I ship AI apps.", "I write code."] },
-  design: { label: "✦ Designer", phrases: ["I design brands.", "I craft identity.", "I shape systems."] },
-  it: { label: "⛨ IT & Security", phrases: ["I secure networks.", "I run infrastructure.", "I stop attacks."] },
-  data: { label: "◈ Data Scientist", phrases: ["I model data.", "I find the signal.", "IBM-certified."] },
-};
-const ORDER = ["dev", "design", "it", "data"];
-
-function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
-  const ref = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const el = ref.current!;
-    const io = new IntersectionObserver((es) => es.forEach((e) => {
-      if (!e.isIntersecting) return;
-      io.unobserve(el);
-      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const dur = reduced ? 1 : 1400, t0 = performance.now();
-      const step = (t: number) => {
-        const k = Math.min(1, (t - t0) / dur);
-        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suffix;
-        if (k < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }), { threshold: 0.6 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [to, suffix]);
-  return <em ref={ref}>0{suffix}</em>;
-}
-
-export default function Hero() {
-  const [role, setRole] = useState("dev");
-  const [text, setText] = useState("");
-  const roleRef = useRef("dev");
-  const interacted = useRef(false);
-
-  // typewriter
-  useEffect(() => {
-    roleRef.current = role;
-    document.documentElement.setAttribute("data-role", role);
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const phrases = ROLES[role].phrases;
-    let pi = 0, ci = 0, del = false, timer: ReturnType<typeof setTimeout>;
-    const loop = () => {
-      const w = phrases[pi % phrases.length];
-      if (reduced) { setText(w); return; }
-      if (!del) {
-        ci++; setText(w.slice(0, ci));
-        if (ci === w.length) { del = true; timer = setTimeout(loop, 1900); return; }
-        timer = setTimeout(loop, 55);
-      } else {
-        ci--; setText(w.slice(0, ci));
-        if (ci === 0) { del = false; pi++; timer = setTimeout(loop, 300); return; }
-        timer = setTimeout(loop, 28);
-      }
-    };
-    loop();
-    return () => clearTimeout(timer);
-  }, [role]);
-
-  // auto-cycle until interaction
-  useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let i = 0;
-    const id = setInterval(() => {
-      if (interacted.current) return;
-      i = (i + 1) % ORDER.length;
-      setRole(ORDER[i]);
-    }, 6000);
-    return () => clearInterval(id);
-  }, []);
-
-  const pick = (r: string) => { interacted.current = true; setRole(r); };
-
-  return (
-    <section id="hero">
-      <HeroThree roleRef={roleRef} />
-      <div className="wrap hero-inner">
-        <span className="eyebrow">Abu Dhabi, UAE · Open to projects</span>
-        <h1>Charanjit Singh</h1>
-        <div className="role-line"><span>{text}</span><span className="caret" /></div>
-        <p className="hero-sub">
-          A multi-disciplinary technologist who builds the whole stack most teams split across four hires —
-          production code & AI products, brand & design, IBM-certified data science, and the digital marketing
-          and enterprise IT that tie it all together.
-        </p>
-        <div className="role-tabs" role="tablist">
-          {ORDER.map((r) => (
-            <button key={r} className={"role-tab" + (role === r ? " active" : "")} onClick={() => pick(r)}>
-              {ROLES[r].label}
-            </button>
-          ))}
-        </div>
-        <div className="hero-cta">
-          <a className="btn solid" href="#works">View my work →</a>
-          <a className="btn ghost" href="#contact">Let&apos;s talk</a>
-        </div>
-        <div className="hero-stats">
-          <div className="hstat"><b><Counter to={10} suffix="+" /></b><span>Years experience</span></div>
-          <div className="hstat"><b><Counter to={143} /></b><span>Completed projects</span></div>
-          <div className="hstat"><b><Counter to={114} /></b><span>Happy clients</span></div>
-          <div className="hstat"><b><Counter to={12} suffix="+" /></b><span>Certifications</span></div>
-        </div>
-      </div>
-      <div className="scroll-hint">Scroll<i /></div>
-    </section>
-  );
+import {useSiteContent} from './SiteContentProvider';
+import {useEffect,useRef,useState} from 'react';import dynamic from 'next/dynamic';
+const HeroThree=dynamic(()=>import('./HeroThree'),{ssr:false});
+const ROLES:Record<string,{label:string;phrases:string[]}>={
+ dev:{label:'⌘ Developer',phrases:['I build products.','I ship AI apps.','I write code.']},design:{label:'✦ Designer',phrases:['I design brands.','I craft identity.','I shape systems.']},it:{label:'⛨ IT & Security',phrases:['I secure networks.','I run infrastructure.','I connect teams.']},data:{label:'◈ Data Scientist',phrases:['I model data.','I find the signal.','IBM-certified.']}
+};const ORDER=['dev','design','it','data'];
+function Counter({to,suffix=''}:{to:number;suffix?:string}){const ref=useRef<HTMLElement>(null);useEffect(()=>{const el=ref.current;if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let frame=0;const io=new IntersectionObserver(entries=>{if(!entries.some(e=>e.isIntersecting))return;io.disconnect();const start=performance.now();function step(now:number){const k=Math.min(1,(now-start)/1400);if(el)el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suffix;if(k<1)frame=requestAnimationFrame(step);}frame=requestAnimationFrame(step);},{threshold:.6});io.observe(el);return()=>{io.disconnect();cancelAnimationFrame(frame);};},[to,suffix]);return <em ref={ref}>{to}{suffix}</em>;}
+export default function Hero(){const site=useSiteContent();const [role,setRole]=useState('dev'),[text,setText]=useState(ROLES.dev.phrases[0]),[paused,setPaused]=useState(false);const roleRef=useRef('dev');const interacted=useRef(false);
+useEffect(()=>{document.documentElement.dataset.motion=paused?'paused':'running';},[paused]);
+useEffect(()=>{roleRef.current=role;document.documentElement.dataset.role=role;const phrases=ROLES[role].phrases;if(paused||matchMedia('(prefers-reduced-motion: reduce)').matches){setText(phrases[0]);return;}let pi=0,ci=0,del=false,timer:ReturnType<typeof setTimeout>;function loop(){const word=phrases[pi%phrases.length];ci+=del?-1:1;setText(word.slice(0,ci));let delay=del?28:55;if(ci===word.length){del=true;delay=1900;}else if(ci===0){del=false;pi++;delay=300;}timer=setTimeout(loop,delay);}loop();return()=>clearTimeout(timer);},[role,paused]);
+useEffect(()=>{if(paused||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let i=0;const timer=setInterval(()=>{if(!interacted.current&&!document.hidden){i=(i+1)%ORDER.length;setRole(ORDER[i]);}},6000);return()=>clearInterval(timer);},[paused]);
+return <section id="hero"><HeroThree roleRef={roleRef} paused={paused}/><div className="wrap hero-inner"><span className="eyebrow">{site.tagline}</span><h1>{site.name}</h1><div className="role-line" aria-hidden="true"><span>{text}</span><span className={paused?'caret paused':'caret'}/></div><span className="sr-only">Developer, designer, IT and security professional, and data scientist.</span><p className="hero-sub">{site.bio}</p><div className="role-tabs" role="group" aria-label="Explore my four work areas">{ORDER.map(r=><button key={r} className={'role-tab'+(role===r?' active':'')} aria-pressed={role===r} onClick={()=>{interacted.current=true;setRole(r);}}>{ROLES[r].label}</button>)}</div><div className="hero-cta"><a className="btn solid" href="#works">View my work →</a><a className="btn ghost" href="#contact">Let’s talk</a><button className="motion-toggle" aria-pressed={paused} onClick={()=>setPaused(!paused)}>{paused?'Resume motion':'Pause motion'}</button></div><div className="hero-stats">{site.stats.map(([value,label])=><div className="hstat" key={label}><b><Counter to={parseFloat(value)||0} suffix={value.replace(/[0-9.]/g,'')}/></b><span>{label}</span></div>)}</div></div><a className="scroll-hint" href="#about">Scroll<i/></a></section>;
 }

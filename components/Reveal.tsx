@@ -1,23 +1,3 @@
 "use client";
-import { motion } from "framer-motion";
-
-export default function Reveal({
-  children,
-  delay = 0,
-  y = 34,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+import {useEffect,useRef} from 'react';
+export default function Reveal({children,delay=0,y=34}:{children:React.ReactNode;delay?:number;y?:number}){const ref=useRef<HTMLDivElement>(null);useEffect(()=>{const el=ref.current;if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let animation:Animation|undefined;const io=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){animation=el.animate([{opacity:0,transform:'translateY('+y+'px)'},{opacity:1,transform:'translateY(0)'}],{duration:700,delay:delay*1000,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'});io.disconnect();}},{threshold:.12});io.observe(el);return()=>{io.disconnect();animation?.cancel();};},[delay,y]);return <div className="reveal" ref={ref}>{children}</div>;}

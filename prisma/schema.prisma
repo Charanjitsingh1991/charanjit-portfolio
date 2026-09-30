@@ -1,28 +1,139 @@
-// Deployed on Vercel + Neon (PostgreSQL).
+// Deployed on Hostinger with MySQL.
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Project {
-  id          Int      @id @default(autoincrement())
-  title       String
-  slug        String   @unique
-  category    String // "web" | "design" | "app" | "data" | "other"
-  description String   @db.Text
-  coverImage  String   @db.Text
-  liveUrl     String?  @db.Text
-  repoUrl     String?  @db.Text
-  tech        String?  @db.Text // comma-separated
-  year        String?
-  featured    Boolean  @default(false)
-  published   Boolean  @default(true)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  title          String
+  slug           String   @unique
+  category       String // "web" | "design" | "app" | "data" | "other"
+  description    String   @db.Text
+  coverImage     String   @db.Text
+  coverAlt       String   @default("")
+  client         String   @default("")
+  role           String   @default("")
+  challenge      String   @default("") @db.Text
+  solution       String   @default("") @db.Text
+  outcome        String   @default("") @db.Text
+  gallery        Json
+  videoUrl       String   @default("")
+  documentUrl    String   @default("")
+  seoTitle       String   @default("")
+  seoDescription String   @default("")
+  socialImage    String   @default("")
+  results        String   @default("") @db.Text
+  deleted        Boolean  @default(false)
+  liveUrl        String?  @db.Text
+  repoUrl        String?  @db.Text
+  tech           String?  @db.Text // comma-separated
+  year           String?
+  featured       Boolean  @default(false)
+  published      Boolean  @default(true)
+  order          Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Inquiry {
+  id                 String   @id @default(cuid())
+  requestId          String   @unique
+  name               String
+  email              String
+  company            String
+  service            String
+  budget             String
+  message            String   @db.Text
+  status             String   @default("new")
+  notes              String   @default("") @db.Text
+  emailStatus        String   @default("pending")
+  confirmationStatus String   @default("pending")
+  project            String   @default("")
+  source             String   @default("/contact")
+  followUp           String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model RateLimit {
+  key       String   @id
+  count     Int      @default(0)
+  expiresAt DateTime
+}
+
+model SiteState {
+  key   String @id
+  value Json
+}
+
+model SupportConversation {
+  id               String           @id @default(cuid())
+  visitorTokenHash String           @unique
+  firstName        String
+  lastName         String
+  email            String
+  status           String           @default("open")
+  unreadAdmin      Int              @default(0)
+  unreadVisitor    Int              @default(0)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  messages         SupportMessage[]
+}
+
+model SupportMessage {
+  id             String              @id @default(cuid())
+  conversationId String
+  sender         String
+  body           String              @db.Text
+  emailStatus    String              @default("not-required")
+  createdAt      DateTime            @default(now())
+  conversation   SupportConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model ManagedSite {
+  id                String      @id @default(cuid())
+  clientName        String
+  label             String
+  url               String      @db.Text
+  domainProvider    String      @default("")
+  domainRenewal     DateTime?
+  serverProvider    String      @default("")
+  serverRenewal     DateTime?
+  contactEmail      String      @default("")
+  notes             String      @default("") @db.Text
+  active            Boolean     @default(true)
+  lastStatus        Int?
+  lastResponseMs    Int?
+  lastPerformance   Int?
+  lastSeo           Int?
+  lastAccessibility Int?
+  lastBestPractices Int?
+  lastCheckedAt     DateTime?
+  reminderLog       Json
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  audits             SiteAudit[]
+}
+
+model SiteAudit {
+  id            String      @id @default(cuid())
+  managedSiteId String
+  status        Int?
+  responseMs    Int?
+  performance   Int?
+  seo           Int?
+  accessibility Int?
+  bestPractices Int?
+  issues        Json
+  createdAt     DateTime    @default(now())
+  managedSite   ManagedSite @relation(fields: [managedSiteId], references: [id], onDelete: Cascade)
+
+  @@index([managedSiteId, createdAt])
 }

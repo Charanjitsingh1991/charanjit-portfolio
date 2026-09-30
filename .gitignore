@@ -6,3 +6,8 @@ node_modules
 .DS_Store
 /prisma/dev.db
 next-env.d.ts
+
+.data/
+.data-test-*/
+.npm-cache/
+*.tsbuildinfo

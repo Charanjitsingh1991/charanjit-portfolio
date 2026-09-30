@@ -1,42 +1,9 @@
 "use client";
-import { useState } from "react";
-
-export default function Contact() {
-  const [f, setF] = useState({ name: "", email: "", subject: "", message: "" });
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setF((s) => ({ ...s, [k]: e.target.value }));
-  const send = () => {
-    const s = encodeURIComponent(f.subject || "Project inquiry from portfolio");
-    const b = encodeURIComponent(`Name: ${f.name}\nEmail: ${f.email}\n\n${f.message}`);
-    window.location.href = `mailto:charanjit@thecharanjitsingh.com?subject=${s}&body=${b}`;
-  };
-  return (
-    <section id="contact">
-      <div className="wrap">
-        <div className="contact-grid">
-          <div>
-            <span className="eyebrow">Contact</span>
-            <h2 className="big-cta" style={{ marginTop: 16 }}>Let&apos;s build something <span className="tint">remarkable.</span></h2>
-            <ul className="c-list">
-              <li><span className="k">Email</span><a href="mailto:charanjit@thecharanjitsingh.com">charanjit@thecharanjitsingh.com</a></li>
-              <li><span className="k">Phone</span><a href="tel:+971557714245">+971 55 771 4245</a></li>
-              <li><span className="k">Location</span><span>Abu Dhabi, United Arab Emirates</span></li>
-              <li><span className="k">LinkedIn</span><a href="https://www.linkedin.com/in/charanjitsingh1991/" target="_blank" rel="noopener">/in/charanjitsingh1991</a></li>
-              <li><span className="k">GitHub</span><a href="https://github.com/Charanjitsingh1991" target="_blank" rel="noopener">@Charanjitsingh1991</a></li>
-            </ul>
-          </div>
-          <div className="form">
-            <div className="row">
-              <div className="fld"><label>Name</label><input value={f.name} onChange={set("name")} placeholder="Your name" /></div>
-              <div className="fld"><label>Email</label><input type="email" value={f.email} onChange={set("email")} placeholder="you@company.com" /></div>
-            </div>
-            <div className="fld"><label>Subject</label><input value={f.subject} onChange={set("subject")} placeholder="Project, role, or idea" /></div>
-            <div className="fld"><label>Message</label><textarea value={f.message} onChange={set("message")} placeholder="Tell me what you need…" /></div>
-            <button className="btn solid" style={{ width: "100%", justifyContent: "center" }} onClick={send}>Send message →</button>
-            <p className="note" style={{ textAlign: "center" }}>Opens your email client with the message pre-filled.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+import {useSiteContent} from './SiteContentProvider';
+import {useRef,useState} from 'react';import Link from 'next/link';
+const services=['Development','Design','Data science','IT & security','A little of everything'];
+export default function Contact({initialService='A little of everything',standalone=false,project=''}:{initialService?:string;standalone?:boolean;project?:string}){
+const site=useSiteContent();const [service,setService]=useState(services.includes(initialService)?initialService:services[4]),[busy,setBusy]=useState(false),[sent,setSent]=useState(false),[error,setError]=useState('');const requestId=useRef('');const Heading=standalone?'h1':'h2';
+async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();setError('');setBusy(true);const form=e.currentTarget,data=new FormData(form);requestId.current||=crypto.randomUUID();try{const response=await fetch('/api/inquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({project,source:window.location.pathname,name:data.get('name'),email:data.get('email'),company:data.get('company'),service,budget:data.get('budget'),message:data.get('message'),consent:data.get('consent')==='on',website:data.get('website'),requestId:requestId.current})});const result=await response.json();if(!response.ok)throw Error(result.error||'Something went wrong. Please try again.');setSent(true);form.reset();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+return <section id="contact"><div className="wrap"><div className="contact-grid"><div><span className="eyebrow">Contact</span><Heading className="big-cta" style={{marginTop:16}}>{site.contactTitle}</Heading><ul className="c-list"><li><span className="k">Email</span><a href={"mailto:"+site.email}>{site.email}</a></li><li><span className="k">Phone</span><a href={"tel:"+site.phone.replace(/[^+0-9]/g,'')}>{site.phone}</a></li><li><span className="k">Location</span><span>{site.location}</span></li><li><span className="k">LinkedIn</span><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn profile</a></li><li><span className="k">GitHub</span><a href={site.github} target="_blank" rel="noopener noreferrer">GitHub profile</a></li></ul></div><div className="form">{sent?<div className="success-panel" role="status"><span>✓</span><h3>Message received.</h3><p>Your inquiry has been saved. I’ll reply using the email you provided.</p><button className="btn solid" onClick={()=>{setSent(false);requestId.current='';}}>Send another message</button></div>:<form onSubmit={submit}>{project&&<p className="admin-notice">Regarding: {project}</p>}<fieldset className="service-picker"><legend>What can I help you with?</legend>{services.map(s=><button type="button" key={s} aria-pressed={s===service} onClick={()=>setService(s)}>{s}</button>)}</fieldset><div className="row"><div className="fld"><label htmlFor="contact-name">Name *</label><input id="contact-name" name="name" required autoComplete="name" minLength={2} maxLength={100} placeholder="Your name"/></div><div className="fld"><label htmlFor="contact-email">Email *</label><input id="contact-email" name="email" type="email" required autoComplete="email" maxLength={254} placeholder="you@company.com"/></div></div><div className="row"><div className="fld"><label htmlFor="contact-company">Company (optional)</label><input id="contact-company" name="company" autoComplete="organization" maxLength={150} placeholder="Your company"/></div><div className="fld"><label htmlFor="contact-budget">Project budget</label><select id="contact-budget" name="budget">{['Exploring options','Under AED 5,000','AED 5,000–15,000','AED 15,000–40,000','AED 40,000+'].map(b=><option key={b}>{b}</option>)}</select></div></div><div className="fld"><label htmlFor="contact-message">Message *</label><textarea id="contact-message" name="message" required minLength={20} maxLength={6000} placeholder="Tell me about your project, goals, and timeline…"/></div><div className="honeypot" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off"/></label></div><label className="consent"><input type="checkbox" name="consent" required/><span>I agree to have my details used to respond to this inquiry. <Link href="/privacy">Privacy details</Link>.</span></label><button className="btn solid submit-button" disabled={busy}>{busy?'Sending…':'Send message →'}</button>{error&&<p className="form-error" role="alert">{error}</p>}<p className="note" style={{textAlign:'center'}}>Your inquiry is saved securely. No mailing lists.</p></form>}</div></div></div></section>;
 }

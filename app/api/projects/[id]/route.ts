@@ -1,44 +1,14 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { prisma } from "@/lib/prisma";
-import { verifySession, SESSION_COOKIE } from "@/lib/session";
-
-export const runtime = "nodejs";
-
-async function requireAdmin() {
-  const token = cookies().get(SESSION_COOKIE)?.value;
-  return await verifySession(token);
+import {NextResponse} from 'next/server';
+import {recordRevision} from '@/lib/platform-state';
+import {saveProject,deleteProject,listProjects} from '@/lib/store';
+import {isAdmin,sameOrigin,readJson} from '@/lib/http';
+import {projectSchema} from '@/lib/validation';
+type Context={params:Promise<{id:string}>};
+export async function PUT(req:Request,ctx:Context){
+ if(!sameOrigin(req)||!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});
+ try{const id=Number((await ctx.params).id);if(!Number.isSafeInteger(id)||id<1)throw Error();const result=projectSchema.safeParse(await readJson(req));if(!result.success)return NextResponse.json({error:result.error.issues[0].path.join('.')+': '+result.error.issues[0].message},{status:400});const prior=(await listProjects(true)).find(p=>p.id===id);if(prior)await recordRevision('project',String(id),'Updated '+prior.title,prior);return NextResponse.json(await saveProject(result.data,id));}catch{return NextResponse.json({error:'Update failed. Check the slug and project details.'},{status:400});}
 }
-
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  if (!(await requireAdmin()))
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const id = Number(params.id);
-  const b = await req.json();
-  const updated = await prisma.project.update({
-    where: { id },
-    data: {
-      title: b.title,
-      category: b.category,
-      description: b.description ?? "",
-      coverImage: b.coverImage,
-      liveUrl: b.liveUrl || null,
-      repoUrl: b.repoUrl || null,
-      tech: b.tech || null,
-      year: b.year || null,
-      featured: !!b.featured,
-      published: b.published !== false,
-      order: Number.isFinite(+b.order) ? +b.order : 0,
-    },
-  });
-  return NextResponse.json(updated);
-}
-
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  if (!(await requireAdmin()))
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  await prisma.project.delete({ where: { id: Number(params.id) } });
-  return NextResponse.json({ ok: true });
+export async function DELETE(req:Request,ctx:Context){
+ if(!sameOrigin(req)||!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});
+ try{const id=Number((await ctx.params).id);if(!Number.isSafeInteger(id)||id<1)throw Error();const prior=(await listProjects(true)).find(p=>p.id===id);if(prior)await recordRevision('project',String(id),'Moved to trash: '+prior.title,prior);await deleteProject(id);return NextResponse.json({ok:true});}catch{return NextResponse.json({error:'Could not delete this project.'},{status:400});}
 }

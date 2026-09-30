@@ -6,31 +6,47 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint app components lib middleware.ts --ext .ts,.tsx",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "node scripts/run-typescript.cjs prisma/seed.ts",
+    "typecheck": "tsc --noEmit",
+    "test:platform": "node scripts/check-platform.cjs",
+    "db:deploy": "prisma migrate deploy",
+    "admin:credentials": "node scripts/admin-credentials.cjs",
+    "content:sync": "node scripts/run-typescript.cjs scripts/sync-local-catalog.ts",
+    "content:presentation": "node scripts/run-typescript.cjs scripts/refresh-project-presentation.ts",
+    "covers:generate": "node scripts/generate-project-covers.cjs"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
     "bcryptjs": "2.4.3",
     "framer-motion": "11.11.17",
     "jose": "5.9.6",
-    "next": "14.2.35",
+    "next": "^15.5.25",
+    "nodemailer": "^10.0.10",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "suncalc": "1.9.0",
-    "three": "0.160.1"
+    "three": "0.160.1",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.6",
     "@types/node": "20.17.6",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "@types/suncalc": "1.9.2",
     "@types/three": "0.160.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.25",
     "prisma": "5.22.0",
     "tsx": "4.19.2",
     "typescript": "5.6.3"
+  },
+  "overrides": {
+    "postcss": "8.5.28",
+    "nanoid": "3.3.19"
   }
 }

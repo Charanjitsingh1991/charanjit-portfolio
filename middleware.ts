@@ -4,7 +4,7 @@ import { verifySession, SESSION_COOKIE } from "@/lib/session";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const isLogin = pathname === "/admin/login";
+  const isLogin = ["/admin/login","/admin/recovery"].includes(pathname);
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   const session = await verifySession(token);
 
@@ -14,11 +14,7 @@ export async function middleware(req: NextRequest) {
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
     }
-    if (session && isLogin) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/admin";
-      return NextResponse.redirect(url);
-    }
+
   }
   return NextResponse.next();
 }

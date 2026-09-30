@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server';import {timingSafeEqual} from 'crypto';import {sendRenewalReminders} from '@/lib/renewal-reminders';
+export const dynamic='force-dynamic';function allowed(req:Request){const expected=process.env.CRON_SECRET||'',given=req.headers.get('authorization')?.replace(/^Bearer\s+/i,'')||new URL(req.url).searchParams.get('key')||'';return expected.length>=24&&given.length===expected.length&&timingSafeEqual(Buffer.from(given),Buffer.from(expected));}
+export async function GET(req:Request){if(!allowed(req))return NextResponse.json({error:'Unauthorized'},{status:401});try{return NextResponse.json(await sendRenewalReminders());}catch(e){return NextResponse.json({error:(e as Error).message},{status:503});}}
