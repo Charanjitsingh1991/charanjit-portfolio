@@ -33,6 +33,9 @@ html[data-motion=paused] .hero-lab-info,html[data-motion=paused] .spotlight-card
 .work .thumb .project-visual{height:100%;width:100%}
 .work .thumb .project-visual>img{object-fit:contain;transform:none}
 .work:hover .thumb .project-visual>img{transform:none}
+.case-channels{padding:28px 0 18px;border-bottom:1px solid var(--line)}
+.case-channels h2{font-family:var(--ff-d);font-size:clamp(24px,3vw,36px);letter-spacing:-.035em;margin:10px 0 6px}.case-channels p{font-size:13px;color:var(--muted)}
+.case-channels>div{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.case-channels a{display:inline-flex;padding:9px 14px;border:1px solid var(--line2);border-radius:999px;color:var(--accent);font-size:12px}.case-channels a:hover{background:var(--accent-soft);border-color:var(--accent)}
 .spotlight-visual .project-visual>img{object-fit:contain}
 @media(max-width:900px){.spotlight-visual .project-visual{min-height:clamp(260px,56vw,500px)}}
 @media(max-width:620px){.spotlight-visual .project-visual{min-height:clamp(210px,57vw,340px)}.spotlight-visual-head>span:nth-child(2){max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}

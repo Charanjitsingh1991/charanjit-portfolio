@@ -1,4 +1,5 @@
 import legacy from './legacy-projects.json';
+import {projectEditorial} from './project-editorial';
 export const disciplines = [
   { id: 'web', number: '01', name: 'Development', verb: 'Make it work.', subtitle: 'Websites, applications & AI', description: 'From a useful idea to a product people can actually use. Thoughtful interfaces, dependable engineering, and AI with a purpose.', tools: 'Next.js · React · Laravel · Android · AI', color: 'blue' },
   { id: 'design', number: '02', name: 'Design', verb: 'Make it felt.', subtitle: 'Identity, digital & print', description: 'A clear identity, a considered experience, a detail you remember. Design that connects a business to the people it serves.', tools: 'Brand identity · UI/UX · Packaging · Motion', color: 'orange' },
@@ -28,5 +29,6 @@ catalog.push(...[
  {id:15,title:'Sanskriti Bazaar',slug:'sanskriti-bazaar',year:'2019',client:'Sanskriti Bazaar',tech:'Angular,Frontend,Testing',description:'Frontend development, performance improvements, and broader test coverage for an e-commerce experience.',role:'Senior full-stack developer',challenge:'Improve the experience and reliability of an existing commerce application.',solution:'Built Angular components, improved page performance, and expanded automated test coverage.',outcome:'An improved frontend and stronger regression coverage for the commerce platform.'},
 ].map(p=>({...p,category:'web' as const,coverImage:'',coverAlt:p.title+' — project cover',liveUrl:null,repoUrl:null,featured:false,published:true,order:p.id,gallery:[]})));
 for (const project of catalog) { project.coverImage = '/work/covers/' + project.slug + '.svg'; project.coverAlt = project.title + ' — illustrated project cover'; }
+for (const project of catalog) Object.assign(project, projectEditorial[project.slug] || {});
 export const categoryLabel = (category: string) => ({ web: 'Development', app: 'AI & mobile', design: 'Brand & design', data: 'Data science', it: 'IT & security', other: 'Other work' }[category] || category);
 export const aliases: Record<string, string> = { 'rnz-cropwise': 'agri-cropwise', 'rnz-group-website-design': 'rnz-group-website', 'expocrop-website-design': 'expocrop-website', 'expocrop-logo-design': 'expocrop-logo-branding', 'ajooba-llc-website-design': 'ajooba-llc-website', 'ajooba-ae-website-design': 'ajooba-ae-opencart', 'ajooballc-gift-item-designs': 'ajooba-gift-item-designs', 'kalia-law-firm-website-design': 'kalia-law-firm', 'forexamg-website-development': 'forexamg-platform' };

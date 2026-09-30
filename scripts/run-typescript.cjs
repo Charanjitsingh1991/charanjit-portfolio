@@ -10,5 +10,5 @@ require.extensions['.ts'] = (module, filename) => {
   module._compile(outputText, filename);
 };
 const script = process.argv[2];
-if (!['prisma/seed.ts', 'scripts/sync-local-catalog.ts', 'scripts/refresh-project-presentation.ts'].includes(script)) throw new Error('Unknown maintenance script.');
+if (!['prisma/seed.ts', 'scripts/sync-local-catalog.ts', 'scripts/refresh-project-presentation.ts', 'scripts/apply-project-editorial.ts'].includes(script)) throw new Error('Unknown maintenance script.');
 require(path.resolve(script));

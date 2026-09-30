@@ -10,7 +10,7 @@ let r=await request('/api/auth/login','POST',{email:'test@example.test',password
 check((await request('/admin','GET',undefined,true)).status===200,'authenticated admin page available');
 const projects=await (await request('/api/projects')).json();check(projects.length===15,'all fifteen catalog projects available');
 for(const p of projects)check((await request('/work/'+p.slug)).status===200,'project page: '+p.slug);
-for(const p of projects){const cover=await request(p.coverImage);check(cover.status===200&&cover.headers.get('content-type').includes('image/svg+xml'),'illustrated cover: '+p.slug);}
+for(const p of projects){const cover=await request(p.coverImage);check(cover.status===200&&cover.headers.get('content-type')?.startsWith('image/'),'project cover: '+p.slug);}
 const agri=projects.find(p=>p.slug==='agri-cropwise');check(agri?.title==='Agri Cropwise','Agri Cropwise name stored in project catalog');
 let renamed=await request('/work/rnz-cropwise');check(renamed.status===308&&renamed.headers.get('location')==='/work/agri-cropwise','previous Cropwise URL redirects');
 let changed={...agri,title:'Editable spotlight test',slug:'editable-spotlight-test',description:'This description is managed by the project editor.',liveUrl:'https://example.com/agri-demo',coverImage:projects[1].coverImage,gallery:[projects[2].coverImage,projects[3].coverImage]};

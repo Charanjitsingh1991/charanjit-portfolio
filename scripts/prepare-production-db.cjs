@@ -17,3 +17,5 @@ runNode([require.resolve("prisma/build/index.js"), "migrate", "deploy"]);
 
 console.log("Importing the default portfolio catalog...");
 runNode(["scripts/run-typescript.cjs", "prisma/seed.ts"]);
+console.log("Applying researched project details without replacing admin edits...");
+runNode(["scripts/run-typescript.cjs", "scripts/apply-project-editorial.ts"]);
