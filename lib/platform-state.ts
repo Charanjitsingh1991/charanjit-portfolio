@@ -13,8 +13,10 @@ export async function state<T>(fn:(s:Platform)=>T|Promise<T>,write=false):Promis
   if(!write){const row=await prisma.siteState.findUnique({where:{key:'platform'}});return fn(row?row.value as unknown as Platform:initial());}
   return prisma.$transaction(async tx=>{
    await tx.$executeRaw`INSERT INTO SiteState (\`key\`, \`value\`) VALUES ('platform', JSON_OBJECT()) ON DUPLICATE KEY UPDATE \`key\` = \`key\``;
-   const rows=await tx.$queryRaw<{value:Platform}[]>`SELECT \`value\` FROM SiteState WHERE \`key\` = 'platform' FOR UPDATE`;
-   const data=rows[0]?.value?.content?rows[0].value:initial();const result=await fn(data);
+   const rows=await tx.$queryRaw<{value:Platform|string}[]>`SELECT \`value\` FROM SiteState WHERE \`key\` = 'platform' FOR UPDATE`;
+   const raw=rows[0]?.value;
+   const stored=typeof raw==='string'?JSON.parse(raw) as Platform:raw;
+   const data=stored?.content?stored:initial();const result=await fn(data);
    await tx.siteState.update({where:{key:'platform'},data:{value:JSON.parse(JSON.stringify(data))}});return result;
   });
  }

@@ -4,7 +4,7 @@ module.exports=async({request,check,base,folder,password,authSecret,getCookie,se
  let r=await request('/api/admin/studio');check(r.status===401,'studio data requires authentication');
  const data=await(await request('/api/admin/studio','GET',undefined,true)).json();
  const content={...data.content,name:'Studio content test',bio:'A profile edited through the studio content manager.',seoTitle:'Studio search title',testimonials:[{name:'Unpublished person',role:'Test only',quote:'This private test quote must not appear publicly.',approved:false}]};
- check((await request('/api/admin/studio','POST',{action:'content',content},true,'https://untrusted.test')).status===401,'cross-origin content editing rejected');
+ check((await request('/api/admin/studio','POST',{action:'content',content},true,'https://untrusted.test')).status===403,'cross-origin content editing rejected');
  check((await request('/api/admin/studio','POST',{action:'content',content:{...content,cvUrl:'javascript:alert(1)'}},true)).status===400,'unsafe site content URL rejected');
  check((await request('/api/admin/studio','POST',{action:'content',content},true)).status===200,'site content can be published');
  const home=await(await request('/')).text();check(home.includes(content.name)&&home.includes(content.bio)&&home.includes(content.seoTitle),'edited profile and SEO render publicly');
