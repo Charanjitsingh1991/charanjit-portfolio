@@ -1,6 +1,6 @@
 // Invoked by check-platform.cjs against its isolated server and data directory.
 const crypto=require('node:crypto');const fs=require('node:fs');const path=require('node:path');
-module.exports=async({request,check,base,folder,password,getCookie,setCookie})=>{
+module.exports=async({request,check,base,folder,password,authSecret,getCookie,setCookie})=>{
  let r=await request('/api/admin/studio');check(r.status===401,'studio data requires authentication');
  const data=await(await request('/api/admin/studio','GET',undefined,true)).json();
  const content={...data.content,name:'Studio content test',bio:'A profile edited through the studio content manager.',seoTitle:'Studio search title',testimonials:[{name:'Unpublished person',role:'Test only',quote:'This private test quote must not appear publicly.',approved:false}]};
@@ -36,7 +36,7 @@ module.exports=async({request,check,base,folder,password,getCookie,setCookie})=>
  check((await request('/api/analytics','POST',{path:'/work/'+p.slug})).status===204,'aggregate page view recorded');
  check((await request('/api/analytics','POST',{path:'/admin'})).status===400,'admin pages excluded from analytics');
  const analytics=await(await request('/api/admin/studio','GET',undefined,true)).json();check(Object.entries(analytics.analytics).some(([k,v])=>k.endsWith('/work/'+p.slug)&&v.views>=1&&v.inquiries>=1),'analytics shows project views and attributed inquiry');
- check((await request('/api/auth/recovery','POST',{email:'test@example.test'})).status===503,'unconfigured Hostinger SMTP recovery is reported honestly');
+ check((await request('/api/auth/recovery','POST',{action:'request',email:'test@example.test'})).status===503,'unconfigured Hostinger SMTP recovery is reported honestly');
  check((await request('/api/admin/smtp-test','POST',{},true)).status===503,'unconfigured Hostinger SMTP test is reported honestly');
  const before=getCookie();const security=await(await request('/api/admin/security','GET',undefined,true)).json();check(security.sessions.length>=1,'active sessions available');
  r=await request('/api/admin/security','POST',{action:'begin',password:'incorrect'},true);check(r.status===400,'MFA enrollment requires current password');
@@ -49,10 +49,10 @@ module.exports=async({request,check,base,folder,password,getCookie,setCookie})=>
  r=await request('/api/auth/login','POST',{email:'test@example.test',password,code:enabled.codes[0]});check(r.status===200,'recovery code supports admin sign-in');setCookie(r.headers.get('set-cookie').split(';')[0]);
  check((await request('/api/auth/login','POST',{email:'test@example.test',password,code:enabled.codes[0]})).status===401,'recovery code cannot be reused');
  const filePath=path.join(folder,'platform.json');let stored=JSON.parse(fs.readFileSync(filePath,'utf8'));check(!JSON.stringify(stored.security).includes(enrollment.secret),'authenticator key is encrypted at rest');
- const token=crypto.randomBytes(32).toString('hex');stored.security.reset={hash:crypto.createHash('sha256').update(token).digest('hex'),expires:Date.now()+60000};fs.writeFileSync(filePath,JSON.stringify(stored));
- const nextPassword='A-long-random-test-'+crypto.randomBytes(12).toString('hex');r=await request('/api/auth/recovery','POST',{token,password:nextPassword});check(r.status===200,'one-time reset token changes password');
+ const resetCode='12345678';const resetHash=crypto.createHmac('sha256',crypto.createHash('sha256').update(authSecret).digest()).update('admin-password-reset:'+resetCode).digest('hex');stored.security.reset={hash:resetHash,expires:Date.now()+60000,attempts:0};fs.writeFileSync(filePath,JSON.stringify(stored));
+ const nextPassword='A-long-random-test-'+crypto.randomBytes(12).toString('hex');check((await request('/api/auth/recovery','POST',{action:'reset',code:'87654321',password:nextPassword})).status===400,'incorrect email code is rejected');r=await request('/api/auth/recovery','POST',{action:'reset',code:resetCode,password:nextPassword});check(r.status===200,'one-time email code changes password');
  check((await request('/api/admin','GET',undefined,true)).status===401,'password reset revokes existing sessions');
- check((await request('/api/auth/recovery','POST',{token,password:nextPassword})).status===400,'reset token cannot be reused');
+ check((await request('/api/auth/recovery','POST',{action:'reset',code:resetCode,password:nextPassword})).status===400,'reset email code cannot be reused');
  check((await request('/api/auth/login','POST',{email:'test@example.test',password:nextPassword})).status===401,'password reset retains MFA protection');
  r=await request('/api/auth/login','POST',{email:'test@example.test',password:nextPassword,code:enabled.codes[1]});check(r.status===200,'new password plus recovery code signs in');setCookie(r.headers.get('set-cookie').split(';')[0]);
  const sessions=await(await request('/api/admin/security','GET',undefined,true)).json();await request('/api/admin/security','POST',{action:'revoke',id:sessions.sessions[0].id},true);check((await request('/api/admin','GET',undefined,true)).status===401,'session revocation immediately blocks protected APIs');setCookie(before);
