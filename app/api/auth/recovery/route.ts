@@ -2,7 +2,7 @@ import {sendMail,smtpConfigured} from '@/lib/smtp';
 import {NextResponse} from 'next/server';
 import {sameOrigin,readJson} from '@/lib/http';
 import {rateLimit} from '@/lib/store';
-import {requestResetCode,resetPassword} from '@/lib/admin-security';
+import {InvalidResetCodeError,requestResetCode,resetPassword} from '@/lib/admin-security';
 
 export async function POST(req:Request){
   if(!sameOrigin(req))return NextResponse.json({error:'Invalid origin'},{status:403});
@@ -11,7 +11,7 @@ export async function POST(req:Request){
     if(body.action==='reset'){
       if(!await rateLimit('password-recovery-verify',10,900000))return NextResponse.json({error:'Too many attempts. Try again later.'},{status:429});
       if(typeof body.code!=='string'||!/^\d{8}$/.test(body.code)||typeof body.password!=='string'||body.password.length<12||body.password.length>72)return NextResponse.json({error:'Enter the 8-digit email code and a password of 12–72 characters.'},{status:400});
-      try{await resetPassword(body.code,body.password);}catch{return NextResponse.json({error:'Invalid or expired email code. Request a new code if needed.'},{status:400});}
+      try{await resetPassword(body.code,body.password);}catch(error){if(error instanceof InvalidResetCodeError)return NextResponse.json({error:error.message},{status:400});console.error('Admin recovery password update failed',error instanceof Error?error.message:'Unknown error');return NextResponse.json({error:'The password could not be updated due to a server error. Try again shortly.'},{status:503});}
       return NextResponse.json({ok:true,message:'Password updated. Sign in with your new password and authenticator code if enabled.'});
     }
     if(body.action!=='request'||typeof body.email!=='string'||body.email.length>254)return NextResponse.json({error:'Enter your admin email address.'},{status:400});

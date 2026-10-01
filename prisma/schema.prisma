@@ -71,6 +71,16 @@ model SiteState {
   value Json
 }
 
+model AdminResetCode {
+  id        String   @id @default(cuid())
+  hash      String   @db.Char(64)
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt, createdAt])
+}
+
 model SupportConversation {
   id               String           @id @default(cuid())
   visitorTokenHash String           @unique

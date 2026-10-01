@@ -4,7 +4,7 @@ import {prisma} from './prisma';import {defaultContent,type SiteContent} from '.
 export type Media={id:string;url:string;name:string;alt:string;folder:string;type:string;size:number;createdAt:string};
 export type Revision={id:string;kind:'project'|'site';target:string;label:string;data:Project|SiteContent;createdAt:string};
 export type Session={id:string;agent:string;createdAt:number;expires:number};
-export type Platform={analyticsSeen?:Record<string,string>;content:SiteContent;media:Media[];revisions:Revision[];drafts:Record<string,{data:unknown;updatedAt:string}>;activity:{id:string;message:string;createdAt:string}[];analytics:Record<string,{views:number;inquiries:number}>;security:{passwordHash?:string;totp?:string;pendingTotp?:string;pendingUntil?:number;lastStep?:number;recovery:string[];sessions:Session[];reset?:{hash:string;expires:number;attempts?:number}}};
+export type Platform={analyticsSeen?:Record<string,string>;content:SiteContent;media:Media[];revisions:Revision[];drafts:Record<string,{data:unknown;updatedAt:string}>;activity:{id:string;message:string;createdAt:string}[];analytics:Record<string,{views:number;inquiries:number}>;security:{passwordHash?:string;totp?:string;pendingTotp?:string;pendingUntil?:number;lastStep?:number;recovery:string[];sessions:Session[];reset?:{hash:string;expires:number;attempts?:number};resets?:{hash:string;expires:number;attempts:number}[]}};
 const initial=():Platform=>({content:structuredClone(defaultContent),media:[],revisions:[],drafts:{},activity:[],analytics:{},security:{recovery:[],sessions:[]}});
 const localAllowed=()=>!process.env.DATABASE_URL&&!process.env.VERCEL&&(process.env.NODE_ENV!=='production'||process.env.ALLOW_LOCAL_STORAGE==='true');
 let queue:Promise<unknown>=Promise.resolve();
