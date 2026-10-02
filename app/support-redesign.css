@@ -24,3 +24,5 @@
 @media(max-width:350px){.support-start>div{grid-template-columns:1fr}.support-start textarea{min-height:85px}}
 @media(max-height:560px){.support-widget .support-panel{max-height:calc(100dvh - 16px)}.support-widget .support-panel.is-starting{overflow-y:auto}.support-start textarea{min-height:80px}}
 @media(prefers-reduced-motion:reduce){.support-panel header button,.support-start button{transition:none}.support-start button:hover{transform:none}}
+.captcha-control{margin:14px 0;max-width:100%}.captcha-control p{font-size:12px;line-height:1.5}.support-reply:has(.captcha-control){flex-wrap:wrap}.support-reply .captcha-control{width:100%;order:3;margin:4px 0}.support-start .captcha-control{display:block;grid-template-columns:none;margin:8px 0}
+.grecaptcha-badge{bottom:100px!important}
