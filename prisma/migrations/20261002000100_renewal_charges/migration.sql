@@ -1,0 +1,1 @@
+ALTER TABLE `ManagedSite` ADD COLUMN `domainCharge` DECIMAL(12,2) NULL, ADD COLUMN `serverCharge` DECIMAL(12,2) NULL;

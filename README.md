@@ -102,3 +102,9 @@ Apply `npm run db:deploy` before starting the application against Hostinger MySQ
 Password recovery, inquiry notifications, and visitor confirmations use Hostinger SMTP. Recovery links expire after 20 minutes, are stored as hashes, work once, and do not disable two-factor. The reset token is carried in the browser fragment and cleared from the address bar on load. Enable visitor confirmation in Site content > Preferences after verifying SMTP delivery. Initial passwords come from Hostinger environment configuration; a completed reset stores a new bcrypt hash in private storage. Losing both the authenticator and every recovery code requires trusted server-side recovery; there is no public second-factor bypass.
 
 Security implementation references: [TOTP specification, RFC 6238](https://www.rfc-editor.org/rfc/rfc6238) and [OWASP password recovery guidance](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
+
+Client-site renewal charges are stored separately for domains and hosting in AED. Enter the amount charged to the client in **Edit managed website**. The monthly expected revenue view totals active sites with dates in the chosen month, using integer cents; missing charges are flagged and excluded. These totals are forecasts before costs, not confirmed payments. Notes remain private and are included in admin reminder emails; amounts in free-text notes are not automatically guessed.
+
+Use **Send test renewal email** on a selected site to verify SMTP delivery without consuming scheduled reminders. **Run due reminders now** sends only reminders due at the configured thresholds and skips ones already sent. Dates use Asia/Dubai calendar days. Keep the daily Hostinger cron above configured for automatic reminders. Existing renewal dates must be advanced after renewal; future annual dates are not inferred.
+
+Renewal regression tests: `node scripts/check-renewals.cjs`.

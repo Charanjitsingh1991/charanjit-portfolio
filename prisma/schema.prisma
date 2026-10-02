@@ -113,6 +113,8 @@ model ManagedSite {
   label             String
   url               String      @db.Text
   domainProvider    String      @default("")
+  domainCharge      Decimal?    @db.Decimal(12, 2)
+  serverCharge      Decimal?    @db.Decimal(12, 2)
   domainRenewal     DateTime?
   serverProvider    String      @default("")
   serverRenewal     DateTime?

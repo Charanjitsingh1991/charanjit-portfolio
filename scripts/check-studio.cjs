@@ -1,6 +1,14 @@
 // Invoked by check-platform.cjs against its isolated server and data directory.
 const crypto=require('node:crypto');const fs=require('node:fs');const path=require('node:path');
 module.exports=async({request,check,base,folder,password,authSecret,getCookie,setCookie})=>{
+ check((await request('/api/admin/managed-sites/reminders','POST',{action:'run'})).status===401,'renewal email controls require authentication');
+ check((await request('/api/admin/managed-sites/reminders','POST',{action:'run'},true,'https://untrusted.test')).status===403,'cross-origin renewal sends rejected');
+ const managed={clientName:'Test client',label:'Renewal charge test',url:'https://example.com',domainProvider:'Domain provider',domainRenewal:'2026-10-22',serverProvider:'Host',serverRenewal:'2026-10-30',domainCharge:120.10,serverCharge:300.20,contactEmail:'',notes:'Private AED charge',active:true};
+ const created=await request('/api/admin/managed-sites','POST',managed,true);check(created.status===201,'admin saves renewal charges');const managedRecord=(await created.json()).site;
+ const managedList=await(await request('/api/admin/managed-sites','GET',undefined,true)).json();const found=managedList.sites.find(x=>x.id===managedRecord.id);check(found?.domainCharge===120.10&&found?.serverCharge===300.20,'renewal charges persist on reload');
+ check((await request('/api/admin/managed-sites','POST',{...managed,id:managedRecord.id,domainCharge:-1},true)).status===400,'negative renewal charge rejected');
+ check((await request('/api/admin/managed-sites','POST',{...managed,id:managedRecord.id,domainCharge:1.001},true)).status===400,'fractional cents rejected');
+ await request('/api/admin/managed-sites/'+managedRecord.id,'DELETE',undefined,true);
  let r=await request('/api/admin/studio');check(r.status===401,'studio data requires authentication');
  const data=await(await request('/api/admin/studio','GET',undefined,true)).json();
  const content={...data.content,name:'Studio content test',bio:'A profile edited through the studio content manager.',seoTitle:'Studio search title',testimonials:[{name:'Unpublished person',role:'Test only',quote:'This private test quote must not appear publicly.',approved:false}]};
