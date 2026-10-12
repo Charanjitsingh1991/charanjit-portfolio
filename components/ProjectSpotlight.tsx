@@ -13,7 +13,7 @@ export default function ProjectSpotlight({projects}: {projects: Project[]}) {
   if (!choices.length) return null;
   const project = choices[index % choices.length];
   const go = (step: number) => setIndex(value => (value + step + choices.length) % choices.length);
-  return <section id="cropwise" className="project-spotlight">
+  return <section id="featured-work" className="project-spotlight">
     <div className="wrap">
       <div className="spotlight-heading"><div><span className="eyebrow">Proof of work / Featured projects</span><h2>Ideas made <span className="tint">real.</span></h2></div><p>Selected work across code, design, data and digital systems — built to solve real problems and create lasting value.</p></div>
       <div className="spotlight-card" key={project.id}>
