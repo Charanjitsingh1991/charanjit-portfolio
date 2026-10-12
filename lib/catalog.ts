@@ -38,12 +38,30 @@ catalog.push(
  ,{id:22,title:'Medical Analysis',slug:'medical-analysis',category:'app',description:'Private healthcare analysis project. Add the product purpose and verified project details before publishing.',coverImage:'',coverAlt:'Medical Analysis project',liveUrl:null,repoUrl:null,tech:'JavaScript',year:'2026',featured:false,published:false,order:22,client:'Independent project',role:'',challenge:'',solution:'',outcome:'',gallery:[]}
  ,{id:23,title:'Health Nexus AI',slug:'health-nexus-ai',category:'app',description:'Private health technology project. Add the product purpose and verified project details before publishing.',coverImage:'',coverAlt:'Health Nexus AI project',liveUrl:null,repoUrl:null,tech:'TypeScript',year:'2026',featured:false,published:false,order:23,client:'Independent project',role:'',challenge:'',solution:'',outcome:'',gallery:[]}
 );
+catalog.push(
+ {id:24,title:'Noor Al Quran',slug:'noor-al-quran',category:'app',description:'A Quran reading companion for Arabic, English, Hindi, and Urdu, with a mobile-first experience and a link to download the Android app.',coverImage:'',coverAlt:'Mobile screenshot of the Noor Al Quran reading companion',liveUrl:'https://noor-quran-app.vercel.app/',repoUrl:null,tech:'Next.js,React,Android,Arabic,English,Hindi,Urdu',year:'2026',featured:false,published:true,order:1,client:'Noor Al Quran',role:'Product design & application development',challenge:'Make Quran reading and reflection approachable across languages and mobile devices.',solution:'Created a multilingual reading experience with Arabic text, English, Hindi, and Urdu support, plus a path to the Android app.',outcome:'A live Quran companion website with a mobile-first experience and Android app download.',gallery:[]},
+ {id:25,title:'Adore by MMK',slug:'adore-by-mmk',category:'web',description:'A designer-led, made-to-measure womenswear boutique by Monisha Malhotra, with custom apparel, seasonal collections, and occasion wear.',coverImage:'',coverAlt:'Screenshot of the Adore by MMK clothing boutique website',liveUrl:'https://adore-by-mmk.vercel.app/',repoUrl:null,tech:'Next.js,React,Responsive web design,Product catalogue',year:'2026',featured:false,published:true,order:2,client:'Adore by MMK',role:'Website design & development',challenge:'Give a designer-led boutique a digital presence that communicates its made-to-measure offering and visual identity.',solution:'Designed a boutique storefront around custom pieces, collections, occasions, and direct enquiries.',outcome:'A live clothing boutique website for the Adore by MMK brand.',gallery:[]},
+ {id:26,title:'GlobalWatch',slug:'globalwatch',category:'web',description:'A global intelligence dashboard for tracking conflicts, earthquakes, wildfires, flights, disasters, and breaking news in real time.',coverImage:'',coverAlt:'Screenshot of the GlobalWatch intelligence dashboard',liveUrl:'https://globalwatch-neon.vercel.app/',repoUrl:null,tech:'Next.js,React,Leaflet,OpenStreetMap,Public APIs',year:'2026',featured:false,published:true,order:3,client:'GlobalWatch',role:'Product design & full-stack development',challenge:'Bring fast-moving global information from separate sources into a single situational-awareness interface.',solution:'Built a real-time dashboard with map layers, regional filters, news and webcam panels, market data, flight activity, and status indicators.',outcome:'A live global intelligence dashboard for monitoring public global data feeds.',gallery:[]}
+);
+Object.assign(catalog.find(p=>p.slug==='elyndor-ai')!,{description:'An AI-powered market intelligence platform for stock, commodity, and crypto analysis, with live buy, sell, or hold signals.',liveUrl:'https://elyndor-ai.vercel.app/',tech:'Next.js,React,AI market analysis,Financial data',role:'Product design & platform development',challenge:'Make institutional-style market research and decision signals easier to explore through one accessible interface.',solution:'Created a live market research experience with KIRA, streaming market signals, confidence-led verdicts, and market overview metrics.',outcome:'A live AI market research product website with an interactive analysis experience.'});
+Object.assign(catalog.find(p=>p.slug==='medical-analysis')!,{description:'A medical report analysis experience that helps people understand blood tests, MRI results, and lab reports with clear, AI-assisted explanations.',liveUrl:'https://medical-analysis-two.vercel.app/',tech:'AI-assisted analysis,Medical reports,Responsive web app',year:'2026',client:'Medical Analysis',role:'Product design & application development',challenge:'Make complex medical reports easier to understand while keeping the upload and analysis journey clear.',solution:'Designed a report-analysis flow for blood tests, MRI scans, and lab results, with a sample report and privacy cues.',outcome:'A live medical analysis product website presenting report upload and explanation workflows.',published:true,order:4});
+Object.assign(catalog.find(p=>p.slug==='health-nexus-ai')!,{description:'A healthcare AI operations platform showcasing workflows for patient verification, clinical documentation, medical coding, crisis triage, and population health.',liveUrl:'https://health-nexus-ai.vercel.app/',tech:'Healthcare AI workflows,EHR integrations,Clinical operations',year:'2026',client:'Health Nexus AI',role:'Product design & platform development',challenge:'Present multiple healthcare operations workflows in one clear, modern product experience.',solution:'Built a healthcare platform website around AI-agent workflows, EHR connectivity, compliance, and operational status dashboards.',outcome:'A live healthcare AI platform website describing eight coordinated operational agents.',published:true,order:5});
 for (const project of catalog) {
-  project.coverImage = project.slug === 'privydesk-support-suite'
-    ? '/work/covers/privydesk-live.png'
-    : '/work/covers/' + project.slug + '.svg';
-  project.coverAlt = project.slug === 'privydesk-support-suite'
-    ? 'Screenshot of the live PrivyDesk customer support platform homepage'
+  const liveCapture: Record<string,string> = {
+    'privydesk-support-suite':'privydesk-live.png',
+    'noor-al-quran':'noor-quran-live-520.png',
+    'adore-by-mmk':'adore-by-mmk-live.png',
+    'globalwatch':'globalwatch-live.png',
+    'elyndor-ai':'elyndor-ai-live.png',
+    'medical-analysis':'medical-analysis-live.png',
+    'health-nexus-ai':'health-nexus-ai-live.png',
+    'nexqr':'nexqr-live.png',
+    'pingbase':'pingbase-live.png',
+  };
+  const capture = liveCapture[project.slug];
+  project.coverImage = capture ? '/work/covers/' + capture : '/work/covers/' + project.slug + '.svg';
+  project.coverAlt = capture
+    ? 'Live website screenshot — ' + project.title
     : project.title + ' — illustrated project cover';
 }
 for (const project of catalog) Object.assign(project, projectEditorial[project.slug] || {});
