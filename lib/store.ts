@@ -26,11 +26,15 @@ async function local<T>(fn:(data:Local)=>T|Promise<T>,write=false):Promise<T>{
  queue=operation.catch(()=>{});return operation;
 }
 function project(row:unknown):Project {const p=row as Project;return {...p,tech:p.tech||'',year:p.year||'',gallery:Array.isArray(p.gallery)?p.gallery.filter((v):v is string=>typeof v==='string'):[]};}
+function isClientWorkHiddenFromPublic(p:Project) {
+ const identity=`${p.slug} ${p.title} ${p.client}`.toLowerCase();
+ return p.slug==='agri-cropwise'||/(^|[^a-z0-9])(rnz|expocrop)([^a-z0-9]|$)/.test(identity);
+}
 export async function listProjects(admin=false,trash=false):Promise<Project[]> {
- if(hasDatabase())return (await prisma.project.findMany({where:{deleted:trash,...(admin?{}:{published:true})},orderBy:[{featured:'desc'},{order:'asc'},{id:'desc'}]})).map(project);
- if(localEnabled())return local(d=>d.projects.filter(p=>!!p.deleted===trash&&(admin||p.published)).sort((a,b)=>Number(b.featured)-Number(a.featured)||a.order-b.order));
+ if(hasDatabase())return (await prisma.project.findMany({where:{deleted:trash,...(admin?{}:{published:true})},orderBy:[{featured:'desc'},{order:'asc'},{id:'desc'}]})).map(project).filter(p=>admin||!isClientWorkHiddenFromPublic(p));
+ if(localEnabled())return local(d=>d.projects.filter(p=>!!p.deleted===trash&&(admin||p.published&&!isClientWorkHiddenFromPublic(p))).sort((a,b)=>Number(b.featured)-Number(a.featured)||a.order-b.order));
  if(admin)throw Error('Database is not configured.');
- return catalog.filter(p=>p.published);
+ return catalog.filter(p=>p.published&&!isClientWorkHiddenFromPublic(p));
 }
 export async function saveProject(input:Omit<Project,'id'>,id?:number){
  if(hasDatabase())return project(id?await prisma.project.update({where:{id},data:input}):await prisma.project.create({data:input}));
