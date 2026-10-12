@@ -38,7 +38,14 @@ catalog.push(
  ,{id:22,title:'Medical Analysis',slug:'medical-analysis',category:'app',description:'Private healthcare analysis project. Add the product purpose and verified project details before publishing.',coverImage:'',coverAlt:'Medical Analysis project',liveUrl:null,repoUrl:null,tech:'JavaScript',year:'2026',featured:false,published:false,order:22,client:'Independent project',role:'',challenge:'',solution:'',outcome:'',gallery:[]}
  ,{id:23,title:'Health Nexus AI',slug:'health-nexus-ai',category:'app',description:'Private health technology project. Add the product purpose and verified project details before publishing.',coverImage:'',coverAlt:'Health Nexus AI project',liveUrl:null,repoUrl:null,tech:'TypeScript',year:'2026',featured:false,published:false,order:23,client:'Independent project',role:'',challenge:'',solution:'',outcome:'',gallery:[]}
 );
-for (const project of catalog) { project.coverImage = '/work/covers/' + project.slug + '.svg'; project.coverAlt = project.title + ' — illustrated project cover'; }
+for (const project of catalog) {
+  project.coverImage = project.slug === 'privydesk-support-suite'
+    ? '/work/covers/privydesk-live.png'
+    : '/work/covers/' + project.slug + '.svg';
+  project.coverAlt = project.slug === 'privydesk-support-suite'
+    ? 'Screenshot of the live PrivyDesk customer support platform homepage'
+    : project.title + ' — illustrated project cover';
+}
 for (const project of catalog) Object.assign(project, projectEditorial[project.slug] || {});
 export const categoryLabel = (category: string) => ({ web: 'Development', app: 'AI & mobile', design: 'Brand & design', data: 'Data science', it: 'IT & security', other: 'Other work' }[category] || category);
 export const aliases: Record<string, string> = { 'rnz-cropwise': 'agri-cropwise', 'rnz-group-website-design': 'rnz-group-website', 'expocrop-website-design': 'expocrop-website', 'expocrop-logo-design': 'expocrop-logo-branding', 'ajooba-llc-website-design': 'ajooba-llc-website', 'ajooba-ae-website-design': 'ajooba-ae-opencart', 'ajooballc-gift-item-designs': 'ajooba-gift-item-designs', 'kalia-law-firm-website-design': 'kalia-law-firm', 'forexamg-website-development': 'forexamg-platform' };

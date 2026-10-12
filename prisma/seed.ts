@@ -2,8 +2,8 @@ import {PrismaClient,Prisma} from '@prisma/client';
 import {catalog} from '../lib/catalog';
 
 const prisma=new PrismaClient();
-const presentationOverrides:Record<string,{featured:boolean;order:number;repoUrl?:string|null}>={
- 'privydesk-support-suite':{featured:true,order:0,repoUrl:null},
+const presentationOverrides:Record<string,{featured:boolean;order:number;repoUrl?:string|null;coverImage?:string}>={
+ 'privydesk-support-suite':{featured:true,order:0,repoUrl:null,coverImage:'/work/covers/privydesk-live.png'},
  'eili-platform':{featured:false,order:1},
  'project-cartographer':{featured:false,order:2},
  'nexqr':{featured:false,order:3},
