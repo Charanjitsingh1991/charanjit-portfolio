@@ -21,6 +21,10 @@ For new credentials run npm run admin:credentials. The script writes a private c
 7. Run `npm run build` and deploy the Node.js application through Hostinger. Do not set `ALLOW_LOCAL_STORAGE` in production.
 8. Verify a real inquiry appears in Admin > Inquiries and reaches the receiving mailbox. Also test password recovery before launch.
 
+### Google reCAPTCHA Enterprise
+
+For a score-based Enterprise key, set `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `RECAPTCHA_ENTERPRISE_API_KEY`, and `RECAPTCHA_ENTERPRISE_PROJECT_ID` in Hostinger. The project ID is the Google Cloud project ID (for this setup, `tcsportfolio`). The API key is used only by the server to create an assessment; restrict it to the reCAPTCHA Enterprise API and do not use an HTTP-referrer restriction for this server-side request. The site key must allow the production domain. Do not put the API key in a `NEXT_PUBLIC_` variable or commit it. The old `RECAPTCHA_SECRET_KEY` belongs to the legacy reCAPTCHA verification endpoint and is not used by this integration. Client token generation and server assessment use the Enterprise API. Verify the assessment reports a valid token, the expected action, the correct hostname, and a score of at least 0.5. Run `npm run test:captcha` for mocked integration checks.
+
 After adding the environment variables, open Admin > Connections and use **Send SMTP test email**. The button is enabled only when every required SMTP setting and `CONTACT_EMAIL` are present. Hostinger commonly uses `smtp.hostinger.com` with port 465 and a secure connection; use the exact values shown for your mailbox in hPanel.
 
 The project does not auto-provision paid services or store production credentials in public files. A production environment without database configuration still renders the bundled published catalog, but admin data operations and inquiry submission fail clearly rather than pretending to save.

@@ -12,6 +12,7 @@
     "db:seed": "node scripts/run-typescript.cjs prisma/seed.ts",
     "typecheck": "tsc --noEmit",
     "test:platform": "node scripts/check-platform.cjs",
+    "test:captcha": "node scripts/check-captcha.cjs",
     "db:deploy": "prisma migrate deploy",
     "admin:credentials": "node scripts/admin-credentials.cjs",
     "content:sync": "node scripts/run-typescript.cjs scripts/sync-local-catalog.ts",
